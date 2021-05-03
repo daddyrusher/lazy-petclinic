@@ -1,13 +1,13 @@
-package com.daddyrusher.lazypetclinic;
+package com.daddyrusher.petclinic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LazyPetclinicApplication {
+public class App {
 
     public static void main(String[] args) {
-        SpringApplication.run(LazyPetclinicApplication.class, args);
+        SpringApplication.run(App.class, args);
     }
 
 }
