@@ -1,9 +1,11 @@
 package com.daddyrusher.petclinic.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class Person {
+@Getter
+@Setter
+public class Person extends BaseEntity {
     private String firstName;
     private String lastName;
 }
