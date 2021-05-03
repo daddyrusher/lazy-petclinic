@@ -1,4 +1,4 @@
-package com.daddyrusher.lazypetclinic;
+package com.daddyrusher.petclinic;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

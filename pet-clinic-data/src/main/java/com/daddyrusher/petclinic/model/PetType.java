@@ -1,4 +1,4 @@
-package com.daddyrusher.lazypetclinic.model;
+package com.daddyrusher.petclinic.model;
 
 import lombok.Data;
 
