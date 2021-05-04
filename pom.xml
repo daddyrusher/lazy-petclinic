@@ -12,7 +12,7 @@
 
     <groupId>com.daddyrusher</groupId>
     <artifactId>lazy-petclinic</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.8-SNAPSHOT</version>
     <name>lazy-petclinic</name>
 
     <modules>
