@@ -1,4 +1,4 @@
-package com.daddyrusher.petclinic.service.map;
+package com.daddyrusher.petclinic.service.inmemory;
 
 import com.daddyrusher.petclinic.model.Specialty;
 import com.daddyrusher.petclinic.model.Vet;
@@ -12,10 +12,10 @@ import java.util.Set;
 import static java.util.Objects.isNull;
 
 @Service
-public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
+public class InMemoryVetService extends AbstractInMemoryService<Vet, Long> implements VetService {
     private final SpecialtyService specialtyService;
 
-    public VetServiceMap(SpecialtyService specialtyService) {
+    public InMemoryVetService(SpecialtyService specialtyService) {
         this.specialtyService = specialtyService;
     }
 
