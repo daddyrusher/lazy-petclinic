@@ -3,12 +3,14 @@ package com.daddyrusher.petclinic.service.inmemory;
 import com.daddyrusher.petclinic.exception.EntityException;
 import com.daddyrusher.petclinic.model.Visit;
 import com.daddyrusher.petclinic.service.VisitService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-public class ImMemoryVisitService extends AbstractInMemoryService<Visit, Long> implements VisitService {
+@Profile({"default", "inmemory"})
+public class InMemoryVisitService extends AbstractInMemoryService<Visit, Long> implements VisitService {
     @Override
     public Set<Visit> findAll() {
         return super.findAll();

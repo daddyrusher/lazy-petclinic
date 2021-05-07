@@ -6,6 +6,8 @@ import com.daddyrusher.petclinic.model.Pet;
 import com.daddyrusher.petclinic.service.OwnerService;
 import com.daddyrusher.petclinic.service.PetService;
 import com.daddyrusher.petclinic.service.PetTypeService;
+import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -14,15 +16,12 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Service
+@Profile({"default", "inmemory"})
+@AllArgsConstructor
 public class InMemoryOwnerService extends AbstractInMemoryService<Owner, Long> implements OwnerService {
 
     private final PetTypeService petTypeService;
     private final PetService petService;
-
-    public InMemoryOwnerService(PetTypeService petTypeService, PetService petService) {
-        this.petTypeService = petTypeService;
-        this.petService = petService;
-    }
 
     @Override
     public Set<Owner> findAll() {
