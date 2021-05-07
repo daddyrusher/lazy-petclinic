@@ -4,6 +4,8 @@ import com.daddyrusher.petclinic.model.Specialty;
 import com.daddyrusher.petclinic.model.Vet;
 import com.daddyrusher.petclinic.service.SpecialtyService;
 import com.daddyrusher.petclinic.service.VetService;
+import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -12,12 +14,10 @@ import java.util.Set;
 import static java.util.Objects.isNull;
 
 @Service
+@Profile({"default", "inmemory"})
+@AllArgsConstructor
 public class InMemoryVetService extends AbstractInMemoryService<Vet, Long> implements VetService {
     private final SpecialtyService specialtyService;
-
-    public InMemoryVetService(SpecialtyService specialtyService) {
-        this.specialtyService = specialtyService;
-    }
 
     @Override
     public Set<Vet> findAll() {
