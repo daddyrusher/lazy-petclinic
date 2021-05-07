@@ -12,7 +12,7 @@
 
     <groupId>com.daddyrusher</groupId>
     <artifactId>lazy-petclinic</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
     <name>lazy-petclinic</name>
 
     <modules>
@@ -23,7 +23,7 @@
     <scm>
         <connection>scm:git:https://github.com/daddyrusher/lazy-petclinic.git</connection>
         <developerConnection>scm:git:https://github.com/daddyrusher/lazy-petclinic.git</developerConnection>
-      <tag>lazy-petclinic-0.2.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <properties>
