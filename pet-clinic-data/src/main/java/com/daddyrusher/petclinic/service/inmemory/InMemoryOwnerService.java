@@ -1,4 +1,4 @@
-package com.daddyrusher.petclinic.service.map;
+package com.daddyrusher.petclinic.service.inmemory;
 
 import com.daddyrusher.petclinic.exception.EntityException;
 import com.daddyrusher.petclinic.model.Owner;
@@ -14,12 +14,12 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Service
-public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
+public class InMemoryOwnerService extends AbstractInMemoryService<Owner, Long> implements OwnerService {
 
     private final PetTypeService petTypeService;
     private final PetService petService;
 
-    public OwnerServiceMap(PetTypeService petTypeService, PetService petService) {
+    public InMemoryOwnerService(PetTypeService petTypeService, PetService petService) {
         this.petTypeService = petTypeService;
         this.petService = petService;
     }

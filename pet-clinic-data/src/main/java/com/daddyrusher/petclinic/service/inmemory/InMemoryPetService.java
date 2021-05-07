@@ -1,4 +1,4 @@
-package com.daddyrusher.petclinic.service.map;
+package com.daddyrusher.petclinic.service.inmemory;
 
 import com.daddyrusher.petclinic.model.Pet;
 import com.daddyrusher.petclinic.service.PetService;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
-public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService {
+public class InMemoryPetService extends AbstractInMemoryService<Pet, Long> implements PetService {
     @Override
     public Set<Pet> findAll() { return super.findAll(); }
 
