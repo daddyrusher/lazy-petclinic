@@ -1,16 +1,11 @@
 package com.daddyrusher.petclinic.bootstrap;
 
 import com.daddyrusher.petclinic.model.*;
-import com.daddyrusher.petclinic.service.OwnerService;
-import com.daddyrusher.petclinic.service.PetTypeService;
-import com.daddyrusher.petclinic.service.SpecialtyService;
-import com.daddyrusher.petclinic.service.VetService;
+import com.daddyrusher.petclinic.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Set;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -19,12 +14,14 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -84,6 +81,13 @@ public class DataLoader implements CommandLineRunner {
         michael.getPets().add(mikesPet);
 
         ownerService.save(michael);
+
+        Visit dogVisit = new Visit();
+        dogVisit.setPet(bobsPet);
+        dogVisit.setDate(LocalDate.now());
+        dogVisit.setDescription("Sneezy dog");
+
+        visitService.save(dogVisit);
 
         Vet john = new Vet();
         john.setFirstName("John");
