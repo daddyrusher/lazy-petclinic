@@ -1,4 +1,4 @@
-package com.daddyrusher.petclinic.service.map;
+package com.daddyrusher.petclinic.service.inmemory;
 
 import com.daddyrusher.petclinic.exception.EntityException;
 import com.daddyrusher.petclinic.model.BaseEntity;
@@ -8,7 +8,7 @@ import java.util.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> {
+public abstract class AbstractInMemoryService<T extends BaseEntity, ID extends Long> {
     protected Map<Long, T> items = new HashMap<>();
 
     Set<T> findAll() {
@@ -20,8 +20,11 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> 
     }
 
     T save(T object) {
-        if (nonNull(object) && isNull(object.getId())) {
-            object.setId(getNextId());
+        if (nonNull(object)) {
+            if (isNull(object.getId())) {
+                object.setId(getNextId());
+            }
+
             items.put(object.getId(), object);
             return object;
         }

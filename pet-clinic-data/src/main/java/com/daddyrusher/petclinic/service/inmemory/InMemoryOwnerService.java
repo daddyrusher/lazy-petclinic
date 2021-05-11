@@ -1,4 +1,4 @@
-package com.daddyrusher.petclinic.service.map;
+package com.daddyrusher.petclinic.service.inmemory;
 
 import com.daddyrusher.petclinic.exception.EntityException;
 import com.daddyrusher.petclinic.model.Owner;
@@ -6,6 +6,8 @@ import com.daddyrusher.petclinic.model.Pet;
 import com.daddyrusher.petclinic.service.OwnerService;
 import com.daddyrusher.petclinic.service.PetService;
 import com.daddyrusher.petclinic.service.PetTypeService;
+import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -14,15 +16,12 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Service
-public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
+@Profile({"default", "inmemory"})
+@AllArgsConstructor
+public class InMemoryOwnerService extends AbstractInMemoryService<Owner, Long> implements OwnerService {
 
     private final PetTypeService petTypeService;
     private final PetService petService;
-
-    public OwnerServiceMap(PetTypeService petTypeService, PetService petService) {
-        this.petTypeService = petTypeService;
-        this.petService = petService;
-    }
 
     @Override
     public Set<Owner> findAll() {
@@ -71,6 +70,10 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
 
     @Override
     public Owner findByLastName(String lastName) {
-        return null;
+        return findAll()
+                .stream()
+                .filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
     }
 }
