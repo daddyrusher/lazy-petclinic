@@ -18,7 +18,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,11 +41,11 @@ class OwnerControllerTest {
     void setUp() {
         owners = new HashSet<>();
 
-        Owner first = new Owner();
+        var first = new Owner();
         first.setId(1L);
         owners.add(first);
 
-        Owner second = new Owner();
+        var second = new Owner();
         second.setId(2L);
         owners.add(second);
 
@@ -57,8 +58,8 @@ class OwnerControllerTest {
     @MethodSource("urlProvider")
     void listOwners(String url) throws Exception {
         //given
-        String expectedViewName = "owners/index";
-        String dataName = "owners";
+        var expectedViewName = "owners/index";
+        var dataName = "owners";
 
         //when
         when(ownerService.findAll()).thenReturn(owners);
@@ -73,8 +74,8 @@ class OwnerControllerTest {
     @Test
     void findOwners() throws Exception {
         //given
-        String url = "/owners/find";
-        String viewName = "notimplemented";
+        var url = "/owners/find";
+        var viewName = "notimplemented";
 
         //when
 
@@ -84,6 +85,23 @@ class OwnerControllerTest {
                 .andExpect(view().name(viewName));
 
         verifyNoInteractions(ownerService);
+    }
+
+    @Test
+    void displayOwner() throws Exception {
+        //given
+        var ownerId = 1L;
+        var owner = new Owner();
+        owner.setId(ownerId);
+
+        //when
+        when(ownerService.findById(any())).thenReturn(owner);
+
+        //then
+        mockMvc.perform(get("/owners/123"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownerDetails"))
+                .andExpect(model().attribute("owner", hasProperty("id", is(ownerId))));
     }
 
     private static Stream<Arguments> urlProvider() {
