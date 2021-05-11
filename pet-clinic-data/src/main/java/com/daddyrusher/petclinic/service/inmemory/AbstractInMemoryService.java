@@ -20,8 +20,11 @@ public abstract class AbstractInMemoryService<T extends BaseEntity, ID extends L
     }
 
     T save(T object) {
-        if (nonNull(object) && isNull(object.getId())) {
-            object.setId(getNextId());
+        if (nonNull(object)) {
+            if (isNull(object.getId())) {
+                object.setId(getNextId());
+            }
+
             items.put(object.getId(), object);
             return object;
         }
