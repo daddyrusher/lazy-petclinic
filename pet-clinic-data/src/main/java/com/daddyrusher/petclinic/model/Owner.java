@@ -1,6 +1,7 @@
 package com.daddyrusher.petclinic.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "owners")
+@NoArgsConstructor
 public class Owner extends Person {
 
     private String address;
