@@ -12,14 +12,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -54,28 +56,11 @@ class OwnerControllerTest {
                 .build();
     }
 
-    @ParameterizedTest
-    @MethodSource("urlProvider")
-    void listOwners(String url) throws Exception {
-        //given
-        var expectedViewName = "owners/index";
-        var dataName = "owners";
-
-        //when
-        when(ownerService.findAll()).thenReturn(owners);
-
-        //then
-        mockMvc.perform(get(url))
-                .andExpect(status().isOk())
-                .andExpect(view().name(expectedViewName))
-                .andExpect(model().attribute(dataName, hasSize(2)));
-    }
-
     @Test
     void findOwners() throws Exception {
         //given
         var url = "/owners/find";
-        var viewName = "notimplemented";
+        var viewName = "owners/findOwners";
 
         //when
 
@@ -85,6 +70,23 @@ class OwnerControllerTest {
                 .andExpect(view().name(viewName));
 
         verifyNoInteractions(ownerService);
+    }
+
+    @ParameterizedTest
+    @MethodSource("processFormDataProvider")
+    void processFindForm(List<Owner> data,
+                         String expectedViewName,
+                         ResultMatcher expectedStatus) throws Exception {
+        //given
+        var url = "/owners/process";
+
+        //when
+        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(data);
+
+        //then
+        mockMvc.perform(get(url))
+                .andExpect(expectedStatus)
+                .andExpect(view().name(expectedViewName));
     }
 
     @Test
@@ -104,12 +106,21 @@ class OwnerControllerTest {
                 .andExpect(model().attribute("owner", hasProperty("id", is(ownerId))));
     }
 
-    private static Stream<Arguments> urlProvider() {
+    private static Stream<Arguments> processFormDataProvider() {
         return Stream.of(
-                Arguments.of("/owners"),
-                Arguments.of("/owners/"),
-                Arguments.of("/owners/index"),
-                Arguments.of("/owners/index.html")
+                Arguments.of(
+                        Arrays.asList(new Owner() {{
+                            setId(1L);
+                        }}, new Owner() {{
+                            setId(2L);
+                        }}),
+                        "owners/ownersList",
+                        status().isOk()),
+                Arguments.of(Collections.singletonList(new Owner() {{
+                            setId(1L);
+                        }}),
+                        "redirect:/owners/1",
+                        status().is3xxRedirection())
         );
     }
 }
